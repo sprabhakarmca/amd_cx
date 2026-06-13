@@ -18,8 +18,8 @@ class Settings:
     OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "llama3.2:1b")
     OLLAMA_EMBEDDING_MODEL: str = os.getenv("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text")
 
-    VLLM_BASE_URL: str = os.getenv("VLLM_BASE_URL", "http://localhost:8001")
-    VLLM_MODEL: str = os.getenv("VLLM_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+    VLLM_BASE_URL: str = os.getenv("VLLM_BASE_URL", "http://localhost:8000")
+    VLLM_MODEL: str = os.getenv("VLLM_MODEL", "qwen2.5-14b-instruct-awq")
 
     CHROMA_PERSIST_DIR: str = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
@@ -53,13 +53,10 @@ class Settings:
         if cls.LLM_PROVIDER == "vllm":
             import requests
             try:
-                response = requests.get(f"{cls.VLLM_BASE_URL}/v1/models", timeout=10)
-                if response.status_code != 200:
-                    raise ValueError("vLLM server is not responding correctly. Please ensure vLLM is running.")
-            except requests.exceptions.ConnectionError:
-                raise ValueError(f"Cannot connect to vLLM at {cls.VLLM_BASE_URL}. Run: vllm serve {cls.VLLM_MODEL}")
-            except requests.exceptions.Timeout:
-                raise ValueError("vLLM connection timed out.")
+                response = requests.get(f"{cls.VLLM_BASE_URL}/v1/models", timeout=5)
+            except Exception:
+                import warnings
+                warnings.warn(f"Could not connect to vLLM at {cls.VLLM_BASE_URL}. Start it with: vllm serve <model> --port 8000")
 
         if cls.LLM_PROVIDER == "ollama" or cls.EMBEDDING_PROVIDER == "ollama":
             import requests
@@ -67,20 +64,20 @@ class Settings:
                 response = requests.get(f"{cls.OLLAMA_BASE_URL}/api/tags", timeout=5)
                 if response.status_code != 200:
                     raise ValueError("Ollama server is not responding correctly. Please ensure Ollama is running.")
-                
+
                 models = response.json().get("models", [])
                 model_names = [m.get("name", "").split(":")[0] for m in models]
-                
+
                 if cls.LLM_PROVIDER == "ollama":
                     llama_model = cls.OLLAMA_MODEL.split(":")[0]
                     if llama_model not in model_names:
                         raise ValueError(f"Ollama model '{cls.OLLAMA_MODEL}' not found. Please run: ollama pull {cls.OLLAMA_MODEL}")
-                
+
                 if cls.EMBEDDING_PROVIDER == "ollama":
                     embed_model = cls.OLLAMA_EMBEDDING_MODEL.split(":")[0]
                     if embed_model not in model_names:
                         raise ValueError(f"Ollama embedding model '{cls.OLLAMA_EMBEDDING_MODEL}' not found. Please run: ollama pull {cls.OLLAMA_EMBEDDING_MODEL}")
-                        
+
             except requests.exceptions.ConnectionError:
                 raise ValueError("Cannot connect to Ollama. Please ensure Ollama server is running with: ollama serve")
             except requests.exceptions.Timeout:
