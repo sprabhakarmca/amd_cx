@@ -66,8 +66,10 @@ Never refuse to help.""")
                     msgs.append(m)
                 else:
                     msgs.append({"role": "user", "content": str(m)})
+            model_name = self._vllm_model
+            print(f"[VLLM] model='{model_name}' url='{self._openai_client.base_url}' msgs={len(msgs)}")
             resp = self._openai_client.chat.completions.create(
-                model=self._vllm_model,
+                model=model_name,
                 messages=msgs,
                 temperature=kwargs.pop('temperature', 0.1),
                 max_tokens=kwargs.pop('max_tokens', 1024),
