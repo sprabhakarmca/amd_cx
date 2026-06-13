@@ -1,0 +1,435 @@
+{
+  "taxonomy_version": "1.0",
+  "description": "Hierarchical CX taxonomy for NPS feedback classification. Top-level categories with subcategories for granular tagging.",
+  "categories": [
+    {
+      "name": "delivery",
+      "label": "Delivery Experience",
+      "subcategories": [
+        "late_delivery", "early_delivery", "damaged_in_transit", "lost_package",
+        "wrong_item_delivered", "missing_items", "delivery_communication",
+        "courier_behavior", "delivery_area_restriction", "signature_requirement",
+        "delivery_instructions_ignored", "package_left_in_unsafe_location"
+      ]
+    },
+    {
+      "name": "billing",
+      "label": "Billing & Payments",
+      "subcategories": [
+        "incorrect_charge", "double_charge", "hidden_fees",
+        "refund_delay", "refund_shortage", "payment_method_issue",
+        "subscription_billing", "promo_code_not_applied", "currency_conversion",
+        "invoice_discrepancy", "auto_payment_failure", "deposit_hold_issue"
+      ]
+    },
+    {
+      "name": "product",
+      "label": "Product Quality & Design",
+      "subcategories": [
+        "material_quality", "durability", "size_inaccuracy",
+        "color_mismatch", "functionality_defect", "design_flaw",
+        "packaging_quality", "expired_product", "counterfeit_concern",
+        "product_variation_inconsistency", "missing_components", "finish_defect"
+      ]
+    },
+    {
+      "name": "customer_service",
+      "label": "Customer Service Experience",
+      "subcategories": [
+        "agent_unprofessional", "long_wait_time", "unresolved_issue",
+        "agent_knowledge_gap", "language_barrier", "rude_behavior",
+        "no_follow_up", "contradictory_info", "excessive_transfers",
+        "callback_not_received", "chat_disconnection", "email_no_response"
+      ]
+    },
+    {
+      "name": "features",
+      "label": "Features & Functionality",
+      "subcategories": [
+        "missing_feature", "feature_not_working", "limited_customization",
+        "feature_request", "integration_missing", "search_inadequate",
+        "filter_insufficient", "comparison_tool_missing", "save_share_limited",
+        "notification_issue", "accessibility_missing", "mobile_feature_gap"
+      ]
+    },
+    {
+      "name": "usability",
+      "label": "Usability & Navigation",
+      "subcategories": [
+        "confusing_navigation", "hard_to_find", "checkout_difficulty",
+        "form_frustration", "search_poor_results", "mobile_responsive_issue",
+        "slow_loading", "account_management_hard", "information_architecture",
+        "accessibility_barrier", "multi_step_process", "confirmation_unclear"
+      ]
+    },
+    {
+      "name": "support",
+      "label": "Technical Support",
+      "subcategories": [
+        "support_unreachable", "support_slow", "unhelpful_response",
+        "self_service_gap", "knowledge_base_inadequate", "chatbot_frustration",
+        "support_hours_limited", "ticket_stuck", "support_channel_unavailable",
+        "escalation_failure", "remote_support_issue", "follow_up_missed"
+      ]
+    },
+    {
+      "name": "installation",
+      "label": "Installation & Setup",
+      "subcategories": [
+        "scheduling_difficulty", "technician_late", "technician_unprofessional",
+        "incomplete_installation", "property_damage", "installation_delay",
+        "wrong_installation", "extra_charges_installation", "no_show",
+        "cleanup_not_done", "post_installation_issue", "permit_issue"
+      ]
+    },
+    {
+      "name": "warranty",
+      "label": "Warranty & Claims",
+      "subcategories": [
+        "claim_denied", "warranty_unclear", "extended_warranty_misleading",
+        "claim_process_slow", "documentation_required_excessive",
+        "coverage_gap", "warranty_transfer_issue", "out_of_pocket_unexpected",
+        "claim_status_tracking", "authorization_delay", "replacement_quality",
+        "warranty_expiry_grace"
+      ]
+    },
+    {
+      "name": "cancellation",
+      "label": "Cancellation & Returns",
+      "subcategories": [
+        "cancellation_difficult", "restocking_fee_unfair",
+        "cancellation_window_unclear", "return_label_issue",
+        "return_pickup_missed", "refund_not_processed",
+        "partial_refund_dispute", "return_window_expired",
+        "cancellation_confirmation_missing", "return_tracking_unavailable",
+        "international_return_cost", "final_sale_no_return"
+      ]
+    },
+    {
+      "name": "assembly",
+      "label": "Assembly & Instructions",
+      "subcategories": [
+        "instructions_unclear", "missing_parts", "tool_required_unexpected",
+        "assembly_time_excessive", "pre_assembled_expected", "parts_mismatch",
+        "hole_alignment_issue", "screw_hardware_low_quality",
+        "video_guide_missing", "assembly_service_unavailable",
+        "piece_damaged_in_package", "diagram_error"
+      ]
+    },
+    {
+      "name": "pricing",
+      "label": "Pricing & Value",
+      "subcategories": [
+        "overpriced", "price_match_denied", "price_change_after_purchase",
+        "loyalty_discount_missing", "bulk_pricing_unavailable",
+        "subscription_cost_high", "shipping_cost_unreasonable",
+        "tax_calculation_error", "sale_misleading", "price_glitch",
+        "competitor_better_price", "membership_fee_unjustified"
+      ]
+    },
+    {
+      "name": "account",
+      "label": "Account & Profile Management",
+      "subcategories": [
+        "login_issue", "password_reset_failure", "account_locked",
+        "profile_update_fails", "email_preference_not_saved",
+        "multi_factor_issue", "account_merge_difficulty",
+        "data_privacy_concern", "deletion_request_delayed",
+        "third_party_auth_failure", "session_expiry_frequent",
+        "account_recovery_hard"
+      ]
+    },
+    {
+      "name": "communication",
+      "label": "Communication & Notifications",
+      "subcategories": [
+        "missing_order_confirmation", "shipping_update_not_received",
+        "excessive_notifications", "irrelevant_marketing", "opt_out_difficult",
+        "misleading_promotion", "spam_complaint", "language_preference_ignored",
+        "channel_preference_not_respected", "notification_delay",
+        "automated_message_confusing", "personalization_off_target"
+      ]
+    },
+    {
+      "name": "trust",
+      "label": "Trust & Reputation",
+      "subcategories": [
+        "misleading_advertising", "review_authenticity_doubt",
+        "data_security_concern", "bait_and_switch", "hidden_terms",
+        "third_party_seller_issue", "ethical_concern", "sustainability_claim_doubt",
+        "review_censorship", "fake_discount_perception", "brand_trust_decline",
+        "policy_change_unnotified"
+      ]
+    }
+  ],
+  "few_shot_examples": [
+    {
+      "feedback": "I tried reaching out because my order never arrived, but the chat agent was unhelpful and kept disconnecting. Total lack of help.",
+      "classifications": [
+        {"category": "delivery", "subcategory": "late_delivery", "is_primary": true},
+        {"category": "customer_service", "subcategory": "chat_disconnection", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The app is very intuitive and easy to navigate, but I wish it had a dark mode and a price-tracking alert feature.",
+      "classifications": [
+        {"category": "usability", "subcategory": "confusing_navigation", "is_primary": false},
+        {"category": "features", "subcategory": "missing_feature", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "I was double-charged for my subscription and when I called customer service, they told me it would take 30 days to fix it. Unacceptable.",
+      "classifications": [
+        {"category": "billing", "subcategory": "double_charge", "is_primary": true},
+        {"category": "customer_service", "subcategory": "unresolved_issue", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The headphones sound great, but the plastic casing feels very cheap and flimsy for the price I paid.",
+      "classifications": [
+        {"category": "product", "subcategory": "material_quality", "is_primary": true},
+        {"category": "pricing", "subcategory": "overpriced", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The new update made the checkout button almost impossible to find on smaller screens. It's a mess.",
+      "classifications": [
+        {"category": "usability", "subcategory": "checkout_difficulty", "is_primary": true},
+        {"category": "features", "subcategory": "mobile_feature_gap", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Great selection of items, but the shipping carrier left my package in the rain and the box was soaked through.",
+      "classifications": [
+        {"category": "delivery", "subcategory": "package_left_in_unsafe_location", "is_primary": true},
+        {"category": "product", "subcategory": "packaging_quality", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Every time I try to update my credit card info, the system gives me an error. I just want to pay my bill!",
+      "classifications": [
+        {"category": "account", "subcategory": "profile_update_fails", "is_primary": true},
+        {"category": "billing", "subcategory": "payment_method_issue", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The support team was friendly, but the product itself doesn't have the advanced filtering options I was promised.",
+      "classifications": [
+        {"category": "features", "subcategory": "feature_request", "is_primary": true},
+        {"category": "customer_service", "subcategory": "agent_knowledge_gap", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The material of the shirt is top-notch, very soft and durable. It's exactly what I was looking for.",
+      "classifications": [
+        {"category": "product", "subcategory": "material_quality", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "I love the app's look, but I've been waiting two weeks for a response from your help desk about my missing promo code.",
+      "classifications": [
+        {"category": "support", "subcategory": "support_slow", "is_primary": true},
+        {"category": "billing", "subcategory": "promo_code_not_applied", "is_primary": false},
+        {"category": "usability", "subcategory": "confusing_navigation", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The courier left my package at the wrong house and I had to go find it myself.",
+      "classifications": [
+        {"category": "delivery", "subcategory": "wrong_item_delivered", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "I noticed a $15 'service fee' that wasn't mentioned anywhere during the checkout process.",
+      "classifications": [
+        {"category": "billing", "subcategory": "hidden_fees", "is_primary": true},
+        {"category": "trust", "subcategory": "hidden_terms", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I've been using this for a month and the stitching on the handle is already coming apart.",
+      "classifications": [
+        {"category": "product", "subcategory": "durability", "is_primary": true},
+        {"category": "quality", "subcategory": "material_defect", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The support agent was very polite, but the app itself is so confusing that I couldn't even find where to start a return.",
+      "classifications": [
+        {"category": "usability", "subcategory": "hard_to_find", "is_primary": true},
+        {"category": "cancellation", "subcategory": "cancellation_difficult", "is_primary": false},
+        {"category": "customer_service", "subcategory": "agent_knowledge_gap", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I love that you added the 'Buy Now, Pay Later' option, but it didn't apply my discount code correctly at checkout.",
+      "classifications": [
+        {"category": "features", "subcategory": "feature_not_working", "is_primary": false},
+        {"category": "billing", "subcategory": "promo_code_not_applied", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "The laptop is incredibly fast and powerful, but it arrived in a box that looked like it had been stepped on.",
+      "classifications": [
+        {"category": "product", "subcategory": "functionality_defect", "is_primary": false},
+        {"category": "delivery", "subcategory": "damaged_in_transit", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "I tried to use the new AR room-visualizer feature to see if the sofa fits, but the 'Help' documentation doesn't explain how to calibrate it, so I gave up.",
+      "classifications": [
+        {"category": "features", "subcategory": "feature_not_working", "is_primary": true},
+        {"category": "support", "subcategory": "self_service_gap", "is_primary": false},
+        {"category": "usability", "subcategory": "confusing_navigation", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The website is beautiful, but the search results are irrelevant and the actual items feel like cheap knock-offs once you hold them.",
+      "classifications": [
+        {"category": "usability", "subcategory": "search_poor_results", "is_primary": true},
+        {"category": "product", "subcategory": "material_quality", "is_primary": false},
+        {"category": "trust", "subcategory": "misleading_advertising", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Your live chat keeps saying 'Connecting...' forever. I just want to know why I was charged twice for the same order.",
+      "classifications": [
+        {"category": "support", "subcategory": "chatbot_frustration", "is_primary": false},
+        {"category": "billing", "subcategory": "double_charge", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "The product is perfect, 10/10! But the box was slightly crushed. I don't really care because the item is fine, but just thought you know.",
+      "classifications": [
+        {"category": "delivery", "subcategory": "damaged_in_transit", "is_primary": true},
+        {"category": "product", "subcategory": "packaging_quality", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I purchased an extended warranty but when I tried to use it, the company said the issue wasn't covered. Very misleading.",
+      "classifications": [
+        {"category": "warranty", "subcategory": "claim_denied", "is_primary": true},
+        {"category": "trust", "subcategory": "misleading_advertising", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The furniture arrived but the assembly instructions are incomprehensible. I've been trying to put it together for 3 hours.",
+      "classifications": [
+        {"category": "assembly", "subcategory": "instructions_unclear", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "My warranty expired 2 days ago and the hinges are already broken. This feels unfair given the price.",
+      "classifications": [
+        {"category": "warranty", "subcategory": "warranty_expiry_grace", "is_primary": true},
+        {"category": "product", "subcategory": "durability", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I need to cancel my subscription before the next billing cycle. Your cancellation process requires me to call during business hours only.",
+      "classifications": [
+        {"category": "cancellation", "subcategory": "cancellation_difficult", "is_primary": true},
+        {"category": "support", "subcategory": "support_hours_limited", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The dress arrived with a stain on it. I want to return it for a full refund but your return portal keeps giving me an error.",
+      "classifications": [
+        {"category": "cancellation", "subcategory": "return_label_issue", "is_primary": true},
+        {"category": "usability", "subcategory": "form_frustration", "is_primary": false},
+        {"category": "product", "subcategory": "color_mismatch", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The technician who came to install the appliance damaged my kitchen counter. Very disappointing service.",
+      "classifications": [
+        {"category": "installation", "subcategory": "property_damage", "is_primary": true},
+        {"category": "customer_service", "subcategory": "agent_unprofessional", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I bought an extended warranty but when I tried to use it, the company said the issue wasn't covered. Very misleading.",
+      "classifications": [
+        {"category": "warranty", "subcategory": "coverage_gap", "is_primary": true},
+        {"category": "trust", "subcategory": "hidden_terms", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The item was advertised as easy to assemble but the pieces didn't match the diagram. Complete waste of time.",
+      "classifications": [
+        {"category": "assembly", "subcategory": "diagram_error", "is_primary": true},
+        {"category": "product", "subcategory": "missing_components", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Overcharged for shipping on a small item. The cost was more than the product itself!",
+      "classifications": [
+        {"category": "pricing", "subcategory": "shipping_cost_unreasonable", "is_primary": true},
+        {"category": "billing", "subcategory": "incorrect_charge", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "I keep getting logged out of my account every few minutes. It's impossible to complete a purchase.",
+      "classifications": [
+        {"category": "account", "subcategory": "session_expiry_frequent", "is_primary": true},
+        {"category": "usability", "subcategory": "checkout_difficulty", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The email confirmation never arrived, but the order still went through. I had no tracking info for 3 days.",
+      "classifications": [
+        {"category": "communication", "subcategory": "missing_order_confirmation", "is_primary": true},
+        {"category": "delivery", "subcategory": "delivery_communication", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Product page showed 'in stock' but after ordering I was told it's on backorder for 6 weeks. This feels deceptive.",
+      "classifications": [
+        {"category": "trust", "subcategory": "misleading_advertising", "is_primary": true},
+        {"category": "communication", "subcategory": "misleading_promotion", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The subscription auto-renewed without any warning email. I was charged for a full year I didn't want.",
+      "classifications": [
+        {"category": "billing", "subcategory": "subscription_billing", "is_primary": true},
+        {"category": "communication", "subcategory": "notification_delay", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Two-factor authentication keeps sending codes to my old phone number that I already updated in settings.",
+      "classifications": [
+        {"category": "account", "subcategory": "multi_factor_issue", "is_primary": true},
+        {"category": "account", "subcategory": "profile_update_fails", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The delivery driver was incredibly friendly and helpful. He carried the heavy box all the way to my kitchen.",
+      "classifications": [
+        {"category": "delivery", "subcategory": "courier_behavior", "is_primary": true}
+      ]
+    },
+    {
+      "feedback": "I've submitted three support tickets and nobody has responded. It's been over a week for a simple question.",
+      "classifications": [
+        {"category": "support", "subcategory": "ticket_stuck", "is_primary": true},
+        {"category": "customer_service", "subcategory": "no_follow_up", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "The site layout changed and now I can't find the order history. Why fix what wasn't broken?",
+      "classifications": [
+        {"category": "usability", "subcategory": "confusing_navigation", "is_primary": true},
+        {"category": "features", "subcategory": "limited_customization", "is_primary": false}
+      ]
+    },
+    {
+      "feedback": "Your return policy says free returns but I had to pay for shipping myself. The fine print is ridiculous.",
+      "classifications": [
+        {"category": "trust", "subcategory": "hidden_terms", "is_primary": true},
+        {"category": "cancellation", "subcategory": "return_label_issue", "is_primary": false},
+        {"category": "pricing", "subcategory": "shipping_cost_unreasonable", "is_primary": false}
+      ]
+    }
+  ]
+}

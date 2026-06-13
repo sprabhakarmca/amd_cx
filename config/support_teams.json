@@ -1,0 +1,39 @@
+{
+  "teams": [
+    {
+      "name": "Delivery Team",
+      "categories": ["delivery", "installation", "assembly"],
+      "email": "delivery@example.com"
+    },
+    {
+      "name": "Billing Team",
+      "categories": ["billing", "cancellation", "return"],
+      "email": "billing@example.com"
+    },
+    {
+      "name": "Product Team",
+      "categories": ["product", "quality", "features"],
+      "email": "product@example.com"
+    },
+    {
+      "name": "Warranty Team",
+      "categories": ["warranty"],
+      "email": "warranty@example.com"
+    },
+    {
+      "name": "General Support",
+      "categories": ["customer service", "usability", "support"],
+      "email": "support@example.com"
+    }
+  ],
+  "technical_keywords": [
+    "bug", "crash", "error", "broken", "doesn't work", "not working",
+    "fails", "glitch", "issue", "problem", "defect", "malfunction",
+    "hangs", "freezes", "slow", " lagging"
+  ],
+  "helpline": {
+    "number": "1-800-XXX-XXXX",
+    "hours": "Mon-Fri 9AM-5PM",
+    "email": "support@example.com"
+  }
+}

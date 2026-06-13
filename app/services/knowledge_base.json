@@ -1,0 +1,109 @@
+[
+  {
+    "id": 1,
+    "title": "Delivery Timeline",
+    "content": "Standard delivery takes 3-5 business days after order confirmation. For custom or bulk orders, delivery may take 5-7 business days. Customers will receive tracking information via email once the order ships.",
+    "tags": [
+      "delivery",
+      "shipping",
+      "timeline",
+      "order"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Installation Process",
+    "content": "Installation is typically scheduled within 2 business days after delivery. Our certified technicians will arrive during a 4-hour window you select. Please ensure someone aged 18+ is present to grant access. Installation includes setup, calibration, and a brief walkthrough.",
+    "tags": [
+      "installation",
+      "setup",
+      "technician",
+      "schedule"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Warranty Information",
+    "content": "All products come with a 1-year limited warranty covering manufacturing defects. Extended warranties (2-3 years) are available for purchase within 30 days of delivery. Warranty does not cover damage from misuse or unauthorized modifications.",
+    "tags": [
+      "warranty",
+      "coverage",
+      "defects",
+      "extended"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Cancellation Policy",
+    "content": "Orders can be cancelled within 24 hours of placement for a full refund. After 24 hours, a 15% restocking fee applies. Custom or personalized orders cannot be cancelled once production begins.",
+    "tags": [
+      "cancellation",
+      "refund",
+      "restocking"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Return Process",
+    "content": "Returns are accepted within 30 days of delivery for unused items in original packaging. To initiate a return, log into your account and select \"Return Request\" or call support. Refunds are processed within 5-7 business days after inspection.",
+    "tags": [
+      "return",
+      "refund",
+      "process"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Contact Support",
+    "content": "For immediate assistance, call our support line at 1-800-XXX-XXXX (Mon-Fri 9am-6pm EST). Live chat is available on our website. Email support typically responds within 24 hours. For urgent matters, request a callback through our app.",
+    "tags": [
+      "support",
+      "contact",
+      "help",
+      "phone"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Installation Wait Time",
+    "content": "After delivery, installation is typically scheduled within 1-2 business days. During peak seasons (Nov-Dec), wait times may extend to 3-5 business days. You will receive a scheduling link via SMS and email to choose your preferred time slot.",
+    "tags": [
+      "installation",
+      "waiting",
+      "schedule",
+      "delay"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Product Assembly",
+    "content": "Some products require self-assembly. Detailed instructions are included in the box. Assembly videos are available on our website under \"Product Support\". Basic tools (screwdriver, wrench) are required for most assemblies.",
+    "tags": [
+      "assembly",
+      "instructions",
+      "self-assembly",
+      "setup"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Payment Options",
+    "content": "We accept major credit cards, PayPal, and financing options through Affirm. Split payments are available for orders over $500. Payment plans range from 3 to 12 months with 0% APR for qualified buyers.",
+    "tags": [
+      "payment",
+      "financing",
+      "credit",
+      "paypal"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Tracking Your Order",
+    "content": "Track your order by logging into your account and visiting \"My Orders\". You'll see real-time status updates including: Order Placed \u2192 Processing \u2192 Shipped \u2192 Out for Delivery \u2192 Delivered. Tracking numbers work across all major shipping carriers.",
+    "tags": [
+      "tracking",
+      "order status",
+      "delivery"
+    ]
+  }
+]

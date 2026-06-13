@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback System - CX AI</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Feedback System</h1>
+            <button class="settings-btn" id="settingsBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </button>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="feedback">Submit Feedback</button>
+            <button class="tab" data-tab="chat">PM Chat</button>
+            <button class="tab" data-tab="support-queue">Support Queue</button>
+            <button class="tab" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="reports">Reports</button>
+        </nav>
+
+        <main>
+            <section id="feedback-section" class="tab-content active">
+                <div class="form-container">
+                    <h2>Submit Your Feedback</h2>
+                    <form id="feedbackForm">
+                        <div class="form-group">
+                            <label for="product">Product Name</label>
+                            <input type="text" id="product" name="product" placeholder="Enter product name (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label for="npsScore">NPS Score (1-10)</label>
+                            <div class="nps-slider-container">
+                                <input type="range" id="npsScore" name="npsScore" min="1" max="10" value="5" class="nps-slider">
+                                <div class="nps-labels">
+                                    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                                </div>
+                                <div class="nps-value-display">Score: <span id="npsValue">5</span></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedbackText">Your Feedback</label>
+                            <textarea id="feedbackText" name="feedbackText" placeholder="Share your experience with the product..." rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="userId">User ID (Optional)</label>
+                            <input type="text" id="userId" name="userId" placeholder="Enter your user ID">
+                        </div>
+                        <button type="submit" class="btn primary" id="submitFeedbackBtn">
+                            <span id="submitBtnText">Submit Feedback</span>
+                            <span id="submitSpinner" class="spinner hidden"></span>
+                        </button>
+                    </form>
+                    <div id="feedbackResponse" class="response-box hidden">
+                        <div id="responseText"></div>
+                        <div id="responseClassifications" class="classifications-container hidden">
+                            <span class="classification-label">AI Classification:</span>
+                            <div id="classificationTags" class="classification-tags"></div>
+                            <div id="confidenceDisplay" class="confidence-display"></div>
+                        </div>
+                        <div id="responseKbRefs" class="kb-refs-container hidden">
+                            <span class="kb-refs-label">Based on:</span>
+                            <div id="kbRefTags" class="kb-refs-tags"></div>
+                        </div>
+                        <div id="responseCategories" class="category-tags-container hidden">
+                            <span class="category-label">Categories:</span>
+                            <div id="categoryTags" class="category-tags"></div>
+                        </div>
+                        <div id="responseNps" class="nps-display hidden">
+                            <span class="nps-label">NPS Score: </span><span id="npsScoreDisplay"></span>
+                        </div>
+                        <div id="responseReview" class="review-info hidden">
+                            <div class="review-divider">━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                            <div id="responseTeam" class="team-info"></div>
+                            <div id="responseStatus" class="status-info"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="chat-section" class="tab-content">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h2>Product Manager Chat</h2>
+                        <button class="btn-text" id="clearChat" title="Clear chat history">Clear Chat</button>
+                    </div>
+                    <div class="chat-filters">
+                        <div class="filter-group">
+                            <label for="chatProductFilter">Product:</label>
+                            <input type="text" id="chatProductFilter" placeholder="All products">
+                        </div>
+                        <div class="filter-group">
+                            <label for="minNps">Min NPS:</label>
+                            <select id="minNps">
+                                <option value="">Any</option>
+                                <option value="1">1 (Detractor)</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7 (Passive)</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10 (Promoter)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="maxNps">Max NPS:</label>
+                            <select id="maxNps">
+                                <option value="">Any</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6 (Detractor)</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10 (Promoter)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="categoryFilter">Category:</label>
+                            <select id="categoryFilter">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">
+                            <div class="message-content">
+                                Hello! I'm your product insights assistant. Ask me questions about user feedback, such as:
+                                <ul>
+                                    <li>"What are users struggling with?"</li>
+                                    <li>"What features do users like most?"</li>
+                                    <li>"What are the top complaints for Product X?"</li>
+                                    <li>"Show me detractors (NPS 1-6)"</li>
+                                    <li>"What feedback about billing?"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Ask about user feedback...">
+                        <button id="sendChat" class="btn primary">Send</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="support-queue-section" class="tab-content">
+                <div class="support-queue-container">
+                    <div class="queue-header">
+                        <h2>Support Queue</h2>
+                        <button class="btn secondary" id="previewUserBtn" style="margin-right: 10px;">Preview as User</button>
+                        <div class="queue-filters">
+                            <select id="teamFilter">
+                                <option value="">All Teams</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="queue-summary" id="queueSummary">
+                        <div class="summary-stat">
+                            <span class="stat-label">Total:</span>
+                            <span class="stat-value" id="totalCount">0</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Pending:</span>
+                            <span class="stat-value" id="pendingCount">0</span>
+                        </div>
+                        <div class="summary-stat">
+                            <span class="stat-label">Resolved:</span>
+                            <span class="stat-value" id="resolvedCount">0</span>
+                        </div>
+                    </div>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="pending">Pending</button>
+                        <button class="filter-tab" data-filter="resolved">Resolved</button>
+                    </div>
+                    <div class="category-summary" id="categorySummary"></div>
+                    <div class="queue-list" id="queueList">
+                        <div class="queue-empty">No pending reviews</div>
+                    </div>
+                    <div class="queue-actions hidden" id="queueActions">
+                        <button class="btn secondary" id="viewFeedback">View Details</button>
+                        <button class="btn secondary" id="addNotes" title="Internal notes (not visible to user)">Add Notes</button>
+                        <button class="btn primary" id="sendFollowup" title="Send response to user &amp; resolve review">Send Follow-up</button>
+                        <button class="btn success" id="resolveReview" title="Mark review as resolved">Resolve</button>
+                    </div>
+                </div>
+            </section>
+            <section id="dashboard-section" class="tab-content">
+                <div class="dashboard-container">
+                    <h2>CX Observability Dashboard</h2>
+                    <p class="dashboard-subtitle">Real-time metrics for the AI classification pipeline</p>
+
+                    <div class="dashboard-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricTotal">0</div>
+                            <div class="metric-label">Total Processed</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricAuto">0</div>
+                            <div class="metric-label">Auto-Tagged</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricReview">0</div>
+                            <div class="metric-label">HITL Queue</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricLatency">0ms</div>
+                            <div class="metric-label">Avg Latency</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricConfidence">0%</div>
+                            <div class="metric-label">Avg Confidence</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="metricThroughput">0</div>
+                            <div class="metric-label">Throughput (hr)</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-card">
+                            <h3>Latency Over Time</h3>
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Confidence Distribution</h3>
+                            <canvas id="confidenceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-card full-width">
+                            <h3>Category Distribution (Top 15)</h3>
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-card full-width">
+                            <h3>Accuracy by Category</h3>
+                            <div id="accuracyMatrix" class="accuracy-matrix"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-table" id="metricsDetail">
+                        <h3>Pipeline Metrics</h3>
+                        <div class="metrics-grid" id="metricsDetailContent"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reports-section" class="tab-content">
+                <div class="reports-container">
+                    <h2>STO Team Reports</h2>
+                    <p class="reports-subtitle">Generate team-specific CX summaries from feedback data</p>
+
+                    <div class="report-controls">
+                        <div class="report-control-group">
+                            <label for="reportTeam">Team:</label>
+                            <select id="reportTeam">
+                                <option value="Delivery Team">Delivery Team</option>
+                                <option value="Billing Team">Billing Team</option>
+                                <option value="Product Team">Product Team</option>
+                                <option value="Warranty Team">Warranty Team</option>
+                                <option value="General Support">General Support</option>
+                            </select>
+                        </div>
+                        <div class="report-control-group">
+                            <label for="reportDays">Period:</label>
+                            <select id="reportDays">
+                                <option value="7">Last 7 days</option>
+                                <option value="14">Last 14 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 90 days</option>
+                            </select>
+                        </div>
+                        <button class="btn primary" id="generateReport">
+                            <span id="reportBtnText">Generate Report</span>
+                            <span id="reportSpinner" class="spinner hidden"></span>
+                        </button>
+                    </div>
+
+                    <div id="reportOutput" class="report-output hidden">
+                        <div class="report-header">
+                            <h3 id="reportTitle">Team Report</h3>
+                            <div class="report-actions">
+                                <button class="btn secondary" id="copyReport">Copy</button>
+                                <button class="btn secondary" id="exportReport">Export</button>
+                            </div>
+                        </div>
+                        <div id="reportContent" class="report-content"></div>
+                        <div id="reportMetrics" class="report-metrics"></div>
+                    </div>
+
+                    <div class="trend-section">
+                        <h3>Trend Analysis</h3>
+                        <div class="trend-controls">
+                            <div class="report-control-group">
+                                <label for="trendDays">Period:</label>
+                                <select id="trendDays">
+                                    <option value="7">Last 7 days</option>
+                                    <option value="14">Last 14 days</option>
+                                    <option value="30" selected>Last 30 days</option>
+                                </select>
+                            </div>
+                            <button class="btn secondary" id="analyzeTrends">
+                                <span id="trendBtnText">Analyze Trends</span>
+                                <span id="trendSpinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                        <div id="trendOutput" class="trend-output hidden"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="overlay" id="previewOverlay"></div>
+
+        <div class="preview-panel" id="previewPanel">
+            <div class="preview-panel-header">
+                <h3>User POV Preview</h3>
+                <button class="close-preview" id="closePreview">&times;</button>
+            </div>
+            <div class="preview-panel-body">
+                <div class="preview-stats" id="previewStats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statAI">0</div>
+                        <div class="stat-label">AI Responses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statHuman">0</div>
+                        <div class="stat-label">Human Follow-ups</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statResolved">0</div>
+                        <div class="stat-label">Resolved</div>
+                    </div>
+                </div>
+                <div class="preview-user-select">
+                    <select id="previewUserFilter">
+                        <option value="">All Users</option>
+                    </select>
+                </div>
+                <div class="preview-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="human">With Human</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                </div>
+                <div id="previewFeedbackList"></div>
+            </div>
+            <div class="preview-footer">
+                <span id="lastUpdated">Last updated: --</span>
+                <button class="refresh-btn" id="refreshPreview">Refresh</button>
+            </div>
+        </div>
+
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Theme Settings</h2>
+                    <button class="close-btn" id="closeSettings">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="theme-mode">
+                        <label>Mode:</label>
+                        <div class="toggle-group">
+                            <button class="toggle-btn active" data-mode="light">Light</button>
+                            <button class="toggle-btn" data-mode="dark">Dark</button>
+                        </div>
+                    </div>
+                    <div class="theme-presets">
+                        <label>Presets:</label>
+                        <div class="preset-grid">
+                            <button class="preset-btn" data-preset="default-light" style="background: #f5f7fa; border: 2px solid #6366f1;">Default Light</button>
+                            <button class="preset-btn" data-preset="default-dark" style="background: #1a1a2e; border: 2px solid #818cf8;">Default Dark</button>
+                            <button class="preset-btn" data-preset="ocean" style="background: linear-gradient(135deg, #1e3a5f, #2d5a87); border: 2px solid #60a5fa;">Ocean Blue</button>
+                            <button class="preset-btn" data-preset="forest" style="background: linear-gradient(135deg, #1a2f1a, #2d4a2d); border: 2px solid #4ade80;">Forest Green</button>
+                        </div>
+                    </div>
+                    <div class="custom-colors">
+                        <label>Custom Colors:</label>
+                        <div class="color-inputs">
+                            <div class="color-input">
+                                <input type="color" id="primaryColor" value="#6366f1">
+                                <span>Primary</span>
+                            </div>
+                            <div class="color-input">
+                                <input type="color" id="bgColor" value="#f5f7fa">
+                                <span>Background</span>
+                            </div>
+                            <div class="color-input">
+                                <input type="color" id="surfaceColor" value="#ffffff">
+                                <span>Surface</span>
+                            </div>
+                            <div class="color-input">
+                                <input type="color" id="textColor" value="#1f2937">
+                                <span>Text</span>
+                            </div>
+                            <div class="color-input">
+                                <input type="color" id="userBubbleColor" value="#6366f1">
+                                <span>User Bubble</span>
+                            </div>
+                            <div class="color-input">
+                                <input type="color" id="botBubbleColor" value="#e5e7eb">
+                                <span>Bot Bubble</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn secondary" id="resetTheme">Reset to Default</button>
+
+                    <div class="provider-settings">
+                        <h3>AI Provider Settings</h3>
+                        <div class="provider-group">
+                            <label for="llmProvider">Chat Model Provider:</label>
+                            <select id="llmProvider">
+                                <option value="vllm">vLLM (GPU Server)</option>
+                                <option value="ollama">Ollama (Local)</option>
+                                <option value="openai">OpenAI</option>
+                                <option value="google">Google Gemini</option>
+                            </select>
+                            <span class="provider-info" id="llmProviderInfo">Model: llama3.2:1b</span>
+                        </div>
+                        <div class="provider-group">
+                            <label for="embeddingProvider">Embedding Model Provider:</label>
+                            <select id="embeddingProvider">
+                                <option value="ollama">Ollama (Local)</option>
+                                <option value="openai">OpenAI</option>
+                                <option value="google">Google Gemini</option>
+                            </select>
+                            <span class="provider-info" id="embeddingProviderInfo">Model: nomic-embed-text</span>
+                        </div>
+                        <div id="providerStatus" class="provider-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+</html>
