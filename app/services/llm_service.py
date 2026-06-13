@@ -31,12 +31,7 @@ class LLMService:
                 api_key="EMPTY",
                 base_url=f"{settings.VLLM_BASE_URL}/v1"
             )
-            import os as _os
-            _env_val = _os.environ.get("VLLM_MODEL", "NOT SET")
-            print(f"[DIAG] os.environ['VLLM_MODEL']={repr(_env_val)}")
-            print(f"[DIAG] settings.VLLM_MODEL={repr(settings.VLLM_MODEL)}")
             self._vllm_model = settings.VLLM_MODEL
-            print(f"[DIAG] _vllm_model={repr(self._vllm_model)}")
         elif settings.LLM_PROVIDER == "ollama":
             self.llm = ChatOllama(
                 model=settings.OLLAMA_MODEL,
