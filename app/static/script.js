@@ -153,6 +153,17 @@ function initFeedbackForm() {
                 body: JSON.stringify(formData)
             });
 
+            if (!response.ok) {
+                let errMsg = `Server error (${response.status})`;
+                try {
+                    const errBody = await response.json();
+                    errMsg = errBody.detail || errBody.message || errMsg;
+                } catch (_) {}
+                responseBox.classList.add('error');
+                responseText.textContent = `Error: ${errMsg}`;
+                return;
+            }
+
             const result = await response.json();
 
             if (result.success) {
@@ -194,11 +205,11 @@ function initFeedbackForm() {
                 document.getElementById('npsValue').textContent = '5';
             } else {
                 responseBox.classList.add('error');
-                responseText.textContent = `Error: ${result.message}`;
+                responseText.textContent = `Error: ${result.message || JSON.stringify(result)}`;
             }
         } catch (error) {
             responseBox.classList.add('error');
-            responseText.textContent = `Error: ${error.message}`;
+            responseText.textContent = `Error: ${error.message || 'Unknown error'}`;
         } finally {
             submitBtn.disabled = false;
             submitBtnText.textContent = 'Submit Feedback';

@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from app.models.schemas import FeedbackRequest, FeedbackResponse
 from app.graph.workflow import run_feedback_workflow
 from datetime import datetime
+import traceback
 
 router = APIRouter(prefix="/api", tags=["feedback"])
 
@@ -56,4 +57,12 @@ async def submit_feedback(request: FeedbackRequest):
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        traceback.print_exc()
+        return FeedbackResponse(
+            success=False,
+            message=f"Workflow error: {str(e)}",
+            llm_response=None,
+            nps_score=request.nps_score,
+            categories=[],
+            timestamp=datetime.now()
+        )
