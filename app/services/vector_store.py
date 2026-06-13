@@ -7,20 +7,24 @@ from config.settings import settings
 
 class VectorStore:
     def _compute_embedding(self, text: str) -> List[float]:
-        if settings.EMBEDDING_PROVIDER == "vllm":
-            from langchain_openai import OpenAIEmbeddings
-            embeddings = OpenAIEmbeddings(
-                model=settings.VLLM_MODEL,
-                api_key="EMPTY",
-                base_url=f"{settings.VLLM_BASE_URL}/v1"
+        try:
+            if settings.EMBEDDING_PROVIDER == "vllm":
+                from langchain_openai import OpenAIEmbeddings
+                embeddings = OpenAIEmbeddings(
+                    model=settings.VLLM_MODEL,
+                    api_key="EMPTY",
+                    base_url=f"{settings.VLLM_BASE_URL}/v1"
+                )
+                return embeddings.embed_query(text)
+            from langchain_ollama import OllamaEmbeddings
+            embeddings = OllamaEmbeddings(
+                model=settings.OLLAMA_EMBEDDING_MODEL,
+                base_url=settings.OLLAMA_BASE_URL
             )
             return embeddings.embed_query(text)
-        from langchain_ollama import OllamaEmbeddings
-        embeddings = OllamaEmbeddings(
-            model=settings.OLLAMA_EMBEDDING_MODEL,
-            base_url=settings.OLLAMA_BASE_URL
-        )
-        return embeddings.embed_query(text)
+        except Exception as e:
+            print(f"Embedding failed, falling back to text search: {e}")
+            return []
 
     def _vector_to_blob(self, vector: List[float]) -> bytes:
         return struct.pack(f'{len(vector)}f', *vector)
@@ -113,12 +117,12 @@ class VectorStore:
                        max_nps: Optional[int] = None,
                        categories: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         query_vec = self._compute_embedding(query_text)
-        if not query_vec:
-            return []
+        if query_vec:
+            if db.is_postgres():
+                return self._search_pg(query_vec, product_filter, n_results, min_nps, max_nps, categories)
+            return self._search_sqlite(query_vec, product_filter, n_results, min_nps, max_nps, categories)
 
-        if db.is_postgres():
-            return self._search_pg(query_vec, product_filter, n_results, min_nps, max_nps, categories)
-        return self._search_sqlite(query_vec, product_filter, n_results, min_nps, max_nps, categories)
+        return self._query_sqlite(query_text, product_filter, n_results, min_nps, max_nps, categories) if not db.is_postgres() else self._query_pg(query_text, product_filter, n_results, min_nps, max_nps, categories)
 
     def _search_pg(self, query_vec, product_filter, n_results, min_nps, max_nps, categories):
         conditions = []

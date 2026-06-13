@@ -27,7 +27,8 @@ class RoutingService:
 
     def is_technical(self, feedback_text: str) -> bool:
         text_lower = feedback_text.lower()
-        return any(keyword in text_lower for keyword in self.technical_keywords)
+        matches = sum(1 for kw in self.technical_keywords if kw in text_lower)
+        return matches >= 2
 
     def get_technical_response(self) -> str:
         return (

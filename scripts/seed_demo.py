@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.services.vector_store import vector_store
 from app.services.review_service import review_service
 from app.services.database import db
+from app.services.metrics import metrics_service
 from datetime import datetime, timedelta
 import uuid
 
@@ -276,6 +277,17 @@ def seed_demo_data():
                     "UPDATE reviews SET status=%s, final_response=%s WHERE feedback_id=%s",
                     ["resolved", entry["human_response"] or "", feedback_id]
                 )
+
+    for entry in demo_entries:
+        parent = entry["categories"][0].split(".")[0] if entry["categories"] else "general"
+        metrics_service.record_classification(
+            feedback_text=entry["feedback_text"],
+            categories=[{"category": parent, "subcategory": entry["categories"][0].split(".")[1] if len(entry["categories"][0].split(".")) > 1 else "", "confidence": 0.95, "is_primary": True}],
+            latency_ms=0,
+            confidence=0.95,
+            needs_review=entry.get("needs_review", False),
+            assigned_team=entry.get("assigned_team", "General Support")
+        )
 
     print(f"Seeded {len(demo_entries)} demo entries.")
     print(f"  - Positive (no review): {sum(1 for e in demo_entries if not e.get('needs_review'))}")
