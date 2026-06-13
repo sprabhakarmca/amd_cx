@@ -21,6 +21,9 @@ class Settings:
     VLLM_BASE_URL: str = os.getenv("VLLM_BASE_URL", "http://localhost:8000")
     VLLM_MODEL: str = os.getenv("VLLM_MODEL", "qwen2.5-14b-instruct-awq")
 
+    VLLM_EMBEDDING_BASE_URL: str = os.getenv("VLLM_EMBEDDING_BASE_URL", "http://localhost:8001/v1")
+    VLLM_EMBEDDING_MODEL: str = os.getenv("VLLM_EMBEDDING_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+
     CHROMA_PERSIST_DIR: str = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
 

@@ -11,9 +11,9 @@ class VectorStore:
             if settings.EMBEDDING_PROVIDER == "vllm":
                 from langchain_openai import OpenAIEmbeddings
                 embeddings = OpenAIEmbeddings(
-                    model=settings.VLLM_MODEL,
+                    model=settings.VLLM_EMBEDDING_MODEL,
                     api_key="EMPTY",
-                    base_url=f"{settings.VLLM_BASE_URL}/v1"
+                    base_url=settings.VLLM_EMBEDDING_BASE_URL
                 )
                 return embeddings.embed_query(text)
             from langchain_ollama import OllamaEmbeddings
