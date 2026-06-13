@@ -147,7 +147,7 @@ function initFeedbackForm() {
         document.getElementById('responseReview').classList.add('hidden');
 
         try {
-            const response = await fetch('/api/feedback', {
+            const response = await fetch('api/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -279,7 +279,7 @@ function initChat() {
         }
 
         try {
-            const response = await fetch('/api/chat', {
+            const response = await fetch('api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(chatRequest)
@@ -514,7 +514,7 @@ function initProviderSettings() {
 
 async function initCategories() {
     try {
-        const response = await fetch('/api/categories');
+        const response = await fetch('api/categories');
         const data = await response.json();
         
         const categoryFilter = document.getElementById('categoryFilter');
@@ -564,7 +564,7 @@ async function initSupportQueue() {
 
     async function loadTeams() {
         try {
-            const response = await fetch('/api/teams');
+            const response = await fetch('api/teams');
             const teams = await response.json();
             const savedValue = teamFilter.value;
             teamFilter.innerHTML = '<option value="">All Teams</option>';
@@ -582,7 +582,7 @@ async function initSupportQueue() {
 
     async function loadReviews() {
         const team = teamFilter.value;
-        const url = team ? `/api/reviews?team=${encodeURIComponent(team)}` : '/api/reviews';
+        const url = team ? `api/reviews?team=${encodeURIComponent(team)}` : 'api/reviews';
 
         try {
             const response = await fetch(url);
@@ -677,7 +677,7 @@ async function initSupportQueue() {
     async function viewFeedbackDetails() {
         if (!selectedReviewId) return;
         try {
-            const response = await fetch(`/api/reviews/${selectedReviewId}`);
+            const response = await fetch(`api/reviews/${selectedReviewId}`);
             if (!response.ok) {
                 alert('Failed to load feedback details (server error)');
                 return;
@@ -776,7 +776,7 @@ async function initSupportQueue() {
         const notes = await showInputDialog('Add Notes', 'Enter internal notes...', 'Save Notes');
         if (!notes) return;
         try {
-            await fetch(`/api/reviews/${selectedReviewId}`, {
+            await fetch(`api/reviews/${selectedReviewId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'add_notes', notes })
@@ -792,7 +792,7 @@ async function initSupportQueue() {
         const text = await showInputDialog('Send Follow-up', 'Enter your response to the user...', 'Send & Resolve');
         if (!text) return;
         try {
-            await fetch(`/api/reviews/${selectedReviewId}`, {
+            await fetch(`api/reviews/${selectedReviewId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'send_followup', final_response: text })
@@ -808,12 +808,12 @@ async function initSupportQueue() {
         const notes = await showInputDialog('Resolve Review', 'Optional resolution note...', 'Resolve');
         if (notes === null) return;
         try {
-            await fetch(`/api/reviews/${selectedReviewId}`, {
+            await fetch(`api/reviews/${selectedReviewId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'add_notes', notes: notes || 'Resolved without notes' })
             });
-            await fetch(`/api/reviews/${selectedReviewId}`, {
+            await fetch(`api/reviews/${selectedReviewId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'resolve' })
@@ -884,7 +884,7 @@ async function initPreviewUser() {
 
     async function loadUserIds() {
         try {
-            const response = await fetch('/api/user-ids');
+            const response = await fetch('api/user-ids');
             const userIds = await response.json();
             const savedValue = userSelect.value;
             userSelect.innerHTML = '<option value="">All Users</option>';
@@ -904,7 +904,7 @@ async function initPreviewUser() {
 
     async function loadPreviewData() {
         try {
-            const url = `/api/preview-user${currentPreviewUser ? '?user_id=' + encodeURIComponent(currentPreviewUser) : ''}`;
+            const url = `api/preview-user${currentPreviewUser ? '?user_id=' + encodeURIComponent(currentPreviewUser) : ''}`;
             console.log('Loading preview data from:', url);
             const response = await fetch(url);
             
@@ -1020,7 +1020,7 @@ async function initDashboard() {
 
 async function loadDashboardMetrics() {
     try {
-        const response = await fetch('/api/metrics');
+        const response = await fetch('api/metrics');
         const data = await response.json();
         updateMetricCards(data);
         renderLatencyChart(data);
@@ -1222,7 +1222,7 @@ async function generateReport() {
     spinner.classList.remove('hidden');
 
     try {
-        const fbResponse = await fetch('/api/preview-user');
+        const fbResponse = await fetch('api/preview-user');
         const fbData = await fbResponse.json();
         const allFeedbacks = fbData.feedbacks || [];
 
@@ -1230,7 +1230,7 @@ async function generateReport() {
         cutoff.setDate(cutoff.getDate() - days);
         const filtered = allFeedbacks.filter(f => new Date(f.created_at) >= cutoff);
 
-        const response = await fetch('/api/chat', {
+        const response = await fetch('api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1344,10 +1344,10 @@ async function analyzeTrends() {
     spinner.classList.remove('hidden');
 
     try {
-        const trendsResponse = await fetch(`/api/metrics/trends?days=${days}`);
+        const trendsResponse = await fetch(`api/metrics/trends?days=${days}`);
         const trendsData = await trendsResponse.json();
 
-        const chatResponse = await fetch('/api/chat', {
+        const chatResponse = await fetch('api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -1386,7 +1386,7 @@ async function analyzeTrends() {
 
 async function loadFeedbackCount() {
     try {
-        const response = await fetch('/api/preview-user');
+        const response = await fetch('api/preview-user');
         const data = await response.json();
         const total = (data.feedbacks || []).length;
         document.querySelector('.reports-subtitle').textContent = `Based on ${total} total feedback entries`;
