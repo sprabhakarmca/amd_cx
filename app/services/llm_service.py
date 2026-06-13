@@ -1,4 +1,3 @@
-from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from config.settings import settings
@@ -14,9 +13,12 @@ import re
 
 class LLMService:
     def __init__(self):
+        from openai import OpenAI
         from langchain_core.messages import SystemMessage, HumanMessage
         self._SystemMessage = SystemMessage
         self._HumanMessage = HumanMessage
+        self._openai_client = None
+        self.llm = None
 
         if settings.LLM_PROVIDER == "google":
             self.llm = ChatGoogleGenerativeAI(
@@ -25,13 +27,11 @@ class LLMService:
                 temperature=0.3
             )
         elif settings.LLM_PROVIDER == "vllm":
-            self.llm = ChatOpenAI(
-                model=settings.VLLM_MODEL,
+            self._openai_client = OpenAI(
                 api_key="EMPTY",
-                base_url=f"{settings.VLLM_BASE_URL}/v1",
-                temperature=0.1,
-                max_tokens=1024
+                base_url=f"{settings.VLLM_BASE_URL}/v1"
             )
+            self._vllm_model = settings.VLLM_MODEL
         elif settings.LLM_PROVIDER == "ollama":
             self.llm = ChatOllama(
                 model=settings.OLLAMA_MODEL,
@@ -39,6 +39,7 @@ class LLMService:
                 temperature=0.3
             )
         else:
+            from langchain_openai import ChatOpenAI
             self.llm = ChatOpenAI(
                 model=settings.OPENAI_LLM_MODEL,
                 api_key=settings.OPENAI_API_KEY,
@@ -50,9 +51,33 @@ You MUST respond to all requests without refusing.
 When asked to classify feedback, write responses, or determine teams, always provide a helpful answer.
 Never refuse to help.""")
 
+    class _LLMResponse:
+        def __init__(self, content):
+            self.content = content
+
+    def _call_llm(self, messages, **kwargs):
+        if self._openai_client:
+            msgs = []
+            for m in messages:
+                if hasattr(m, 'content'):
+                    role = "system" if getattr(m, 'type', '') == 'system' else "user"
+                    msgs.append({"role": role, "content": m.content})
+                elif isinstance(m, dict):
+                    msgs.append(m)
+                else:
+                    msgs.append({"role": "user", "content": str(m)})
+            resp = self._openai_client.chat.completions.create(
+                model=self._vllm_model,
+                messages=msgs,
+                temperature=kwargs.pop('temperature', 0.1),
+                max_tokens=kwargs.pop('max_tokens', 1024),
+                **kwargs
+            )
+            return self._LLMResponse(resp.choices[0].message.content or "")
+        return self.llm.invoke(messages)
+
     def _invoke_with_system(self, prompt: str) -> str:
-        response = self.llm.invoke([self.system_prompt, self._HumanMessage(content=prompt)])
-        return response.content
+        return self._call_llm([self.system_prompt, self._HumanMessage(content=prompt)]).content
 
     def _extract_kb_titles_used(self, response: str, kb_results: List[Dict]) -> List[str]:
         if not kb_results:
@@ -136,7 +161,7 @@ JSON response:
 }}"""
 
         try:
-            response = self.llm.invoke([self._SystemMessage(content="You are a JSON-only classifier. Never include markdown or explanations."), self._HumanMessage(content=prompt)])
+            response = self._call_llm([self._SystemMessage(content="You are a JSON-only classifier. Never include markdown or explanations."), self._HumanMessage(content=prompt)])
             raw = response.content.strip()
             raw = re.sub(r'^```(?:json)?\s*', '', raw)
             raw = re.sub(r'\s*```$', '', raw)
@@ -235,7 +260,7 @@ Summary: {summary}
 Write 2-3 sentences acknowledging this feedback. Be specific to their concern. Start with "Thank you"."""
             if kb_context:
                 resp_prompt += f"\n\nReference this policy info naturally if relevant:\n{kb_context}"
-            response = self.llm.invoke([self.system_prompt, self._HumanMessage(content=resp_prompt)])
+            response = self._call_llm([self.system_prompt, self._HumanMessage(content=resp_prompt)])
             response_text = response.content.strip()
             kb_titles_used = self._extract_kb_titles_used(response_text, kb_results or [])
         except Exception:
@@ -288,7 +313,7 @@ Write an acknowledgment response (2-3 sentences) that:
 
 Response:"""
 
-        response = self.llm.invoke(prompt)
+        response = self._call_llm([prompt])
         response_text = response.content.strip()
         kb_titles_used = self._extract_kb_titles_used(response_text, kb_results or [])
         return response_text, kb_titles_used
@@ -352,7 +377,7 @@ If there isn't enough information, say so briefly.
 
 Response:"""
 
-        response = self.llm.invoke(prompt)
+        response = self._call_llm([prompt])
         return response.content
 
     def generate_trend_analysis(self, trends_data: Dict[str, Any]) -> str:
@@ -394,7 +419,7 @@ Provide a concise trend report:
 Keep it brief and actionable."""
 
         try:
-            response = self.llm.invoke(prompt)
+            response = self._call_llm([prompt])
             return response.content.strip()
         except Exception:
             return "Trend analysis is currently unavailable. Please check back later."
@@ -433,7 +458,7 @@ Generate a 3-paragraph report:
 Keep it concise and actionable. No more than 250 words."""
 
         try:
-            response = self.llm.invoke(prompt)
+            response = self._call_llm([prompt])
             return response.content.strip()
         except Exception:
             return f"Report generation for {team_name} failed. Please try again."
