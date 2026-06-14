@@ -6,7 +6,9 @@ const PRESETS = {
         surface: '#ffffff',
         text: '#1f2937',
         userBubble: '#6366f1',
-        botBubble: '#e5e7eb'
+        userBubbleText: '#ffffff',
+        botBubble: '#e5e7eb',
+        botBubbleText: '#1f2937'
     },
     'default-dark': {
         theme: 'dark',
@@ -15,7 +17,9 @@ const PRESETS = {
         surface: '#16213e',
         text: '#e5e7eb',
         userBubble: '#818cf8',
-        botBubble: '#374151'
+        userBubbleText: '#1a1a2e',
+        botBubble: '#374151',
+        botBubbleText: '#e5e7eb'
     },
     'ocean': {
         theme: 'ocean',
@@ -24,7 +28,9 @@ const PRESETS = {
         surface: '#2d5a87',
         text: '#f1f5f9',
         userBubble: '#60a5fa',
-        botBubble: '#1e40af'
+        userBubbleText: '#1e3a5f',
+        botBubble: '#1e40af',
+        botBubbleText: '#f1f5f9'
     },
     'forest': {
         theme: 'forest',
@@ -33,7 +39,9 @@ const PRESETS = {
         surface: '#2d4a2d',
         text: '#f1f5f9',
         userBubble: '#4ade80',
-        botBubble: '#14532d'
+        userBubbleText: '#1a2f1a',
+        botBubble: '#14532d',
+        botBubbleText: '#f1f5f9'
     }
 };
 
@@ -64,7 +72,9 @@ function applyTheme() {
     root.style.setProperty('--surface-color', currentTheme.surface);
     root.style.setProperty('--text-primary', currentTheme.text);
     root.style.setProperty('--user-bubble', currentTheme.userBubble);
+    root.style.setProperty('--user-bubble-text', currentTheme.userBubbleText || '#ffffff');
     root.style.setProperty('--bot-bubble', currentTheme.botBubble);
+    root.style.setProperty('--bot-bubble-text', currentTheme.botBubbleText || '#1f2937');
 
     document.getElementById('primaryColor').value = currentTheme.primary;
     document.getElementById('bgColor').value = currentTheme.bg;
